@@ -1,3 +1,4 @@
 *.yaml
 *.conf
-
+!config/sample.yaml
+data

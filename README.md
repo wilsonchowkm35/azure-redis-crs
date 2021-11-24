@@ -11,6 +11,22 @@
 ### SAS 
 Generate [SAS Token] (https://docs.microsoft.com/en-us/azure/storage/common/storage-sas-overview)
 
+### Blob storage
+Create a configuration file from `config/sample.yaml`
+
+## Steps
+
+### Export Redis 
+1. Login to source Azure account
+``` ./login.sh source ```
+1. Export the Redis DB to source blob storage
+``` ./export.sh [your configuration yaml file]```
+1. Check your `.rdb` file are generated from Redis to your blob storage
+
+### Cross region and subscription blob copy
+1.  
+  
+
 
 
 ## Show your support

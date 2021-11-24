@@ -1,0 +1,21 @@
+SOURCE:
+  NAME: ""
+  RESOURCE_GROUP: ""
+  SUBSCRIPTION: ""
+  BLOB:
+    STORAGE:
+      ACC: ""
+    TYPE: ""
+    CONTAINER: ""
+    URL: ""
+    PREFIX: ""
+DEST:
+  NAME: ""
+  RESOUCE_GROUP: ""
+  SUBSCRIPTION: ""
+  BLOB:
+    STORAGE:
+      ACC: ""
+    TYPE: ""
+    URL: ""
+    CONTAINER: ""
