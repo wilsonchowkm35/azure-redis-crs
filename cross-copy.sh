@@ -10,10 +10,12 @@ copyCrossRegion() {
 		exit
 	fi
 
-	COPY_OUTPUT=$(./azcopy/azcopy copy \
-		--output-type \
+	echo "SOURCE $1 DEST $2"
+
+	COPY_OUTPUT=$(./bin/azcopy copy \
 		${SOURCE_BLOB} \
-		${DEST_BLOB})
+		${DEST_BLOB} \
+		--recursive)
 	
 	echo ${COPY_OUTPUT}
 }
@@ -23,18 +25,38 @@ main() {
 	CONFIG=`./load-config.sh ${1}`
 	declare ${CONFIG}
 
-	SOURCE_TOKEN=`./get-token.sh ${SOURCE_BLOB_TYPE} ${SOURCE_BLOB_STORAGE_ACC} ${SOURCE_BLOB_CONTAINER}`
-	# echo ${SOURCE_TOKEN} > ./source.token
+	# login to source account
+	# ./login.sh ${1} source 
 
-	SOURCE_BLOB_URL="${SOURCE_BLOB_URL}?${SOURCE_TOKEN}"
-	
-	DEST_TOKEN=`./get-token.sh ${DEST_BLOB_TYPE} ${DEST_BLOB_STORAGE_ACC} ${DEST_BLOB_CONTAINER}`
+	# SOURCE_TOKEN=`./get-token.sh ${SOURCE_BLOB_TYPE} ${SOURCE_BLOB_STORAGE_ACC} ${SOURCE_BLOB_CONTAINER}`
+	SOURCE_TOKEN=`cat ./source-sas`
 
-	DEST_BLOB_URL="${DEST_BLOB_URL}?${DEST_TOKEN}"
+	SOURCE_BLOB_URL="${SOURCE_BLOB_URL}${SOURCE_TOKEN}"
+
+	echo "get token for destination"
+
+	# ./login.sh ${1} dest
+
+	# DEST_TOKEN=`./get-token.sh ${DEST_BLOB_TYPE} ${DEST_BLOB_STORAGE_ACC} ${DEST_BLOB_CONTAINER}`
+	DEST_TOKEN=`cat ./dest-sas`
+
+	if [ -z "${DEST_TOKEN}" ]; then
+		echo "Token Authenication Error!"
+		exit
+	fi
+
+	DEST_BLOB_URL="${DEST_BLOB_URL}${DEST_TOKEN}"
 	
+	echo "copying file from ${SOURCE_BLOB_URL} to ${DEST_BLOB_URL}"
+
 	RESP=`copyCrossRegion ${SOURCE_BLOB_URL} ${DEST_BLOB_URL}`
 
 	echo "Cross region copy result: ${RESP}"
 
 }
+
+if [ "${1}" != "--source-only" ]; then
+	echo "Start processing..."
+  main "${@}"
+fi
 

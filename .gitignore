@@ -2,3 +2,5 @@
 *.conf
 !config/sample.yaml
 data
+*sas
+test
