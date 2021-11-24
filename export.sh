@@ -28,17 +28,16 @@ main() {
 	CONFIG=`./load-config.sh ${1}`
 	declare ${CONFIG}
 
-	TOKEN=`./get-token.sh ${SOURCE_BLOB_TYPE} ${SOURCE_BLOB_STORAGE_ACC} ${SOURCE_BLOB_CONTAINER}`
-
-	echo $TOKEN
+	# TOKEN=`./get-token.sh ${SOURCE_BLOB_TYPE} ${SOURCE_BLOB_STORAGE_ACC} ${SOURCE_BLOB_CONTAINER}`
+	SOURCE_TOKEN=`cat ./source-sas`
 
 	## Append sas token to source blob url
-	SOURCE_BLOB_URL="${SOURCE_BLOB_URL}?${SAS_TOKEN}"
+	SOURCE_BLOB_URL="${SOURCE_BLOB_URL}?${SOURCE_TOKEN}"
 
 	echo "Export to Blob ${SOURCE_BLOB_URL}"
 
-	# RESP=`exportRedis ${SOURCE_BLOB_CONTAINER} ${SOURCE_BLOB_PREFIX} ${SOURCE_NAME} ${SOURCE_RESOURCE_GROUP} ${SOURCE_SUBSCRIPTION}`
-	# echo "export result: ${RESP}"
+	RESP=`exportRedis ${SOURCE_BLOB_CONTAINER} ${SOURCE_BLOB_PREFIX} ${SOURCE_NAME} ${SOURCE_RESOURCE_GROUP} ${SOURCE_SUBSCRIPTION}`
+	echo "export result: ${RESP}"
 }
 
 if [ "${1}" != "--source-only" ]; then
