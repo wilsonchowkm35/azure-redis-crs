@@ -32,7 +32,7 @@ main() {
 	SOURCE_TOKEN=`cat ./source-sas`
 
 	## Append sas token to source blob url
-	SOURCE_BLOB_URL="${SOURCE_BLOB_URL}?${SOURCE_TOKEN}"
+	SOURCE_BLOB_URL="${SOURCE_BLOB_URL}${SOURCE_TOKEN}"
 
 	echo "Export to Blob ${SOURCE_BLOB_URL}"
 
